@@ -22,4 +22,21 @@ M.buffers = function(opts)
   core.fzf_exec(opts.cmd, opts)
 end
 
+M.files = function(opts)
+  opts = config.normalize_opts(opts, "tmux.files")
+  if not opts then return end
+
+  opts.fn_transform = function(x)
+    local buf, data = x:match([[^(.-):%s+%d+%s+bytes: "(.*)"$]])
+    return string.format("[%s] %s", utils.ansi_codes.yellow(buf), data)
+  end
+
+  opts.fzf_opts["--preview"] = shell.raw_preview_action_cmd(function(items)
+    local buf = items[1]:match("^%[(.-)%]")
+    return string.format("tmux show-buffer -b %s", buf)
+  end, opts.debug)
+
+  core.fzf_exec(opts.cmd, opts)
+end
+
 return M

@@ -1090,6 +1090,13 @@ M.defaults.tmux                 = {
     register = [["]],
     actions  = { ["enter"] = actions.tmux_buf_set_reg },
     fzf_opts = { ["--no-multi"] = true, ["--delimiter"] = "[:]" }
+  }, 
+  files = {
+    prompt   = "Tmux Files> ",
+    cmd      = "tmux list-buffers",
+    register = [["]],
+    actions  = { ["enter"] = actions.tmux_buf_set_reg },
+    fzf_opts = { ["--no-multi"] = true, ["--delimiter"] = "[:]" }
   },
 }
 
